@@ -1,0 +1,1247 @@
+### Svelte Tutorial:
+    1.Basic Svelte
+        a.Introduction
+        b.Reactivity
+        c.Props
+        d.Logic
+        e.Events
+        f.Bindings
+        g.Lifecycle
+        h.Store
+    2.Advanced Svelte
+        a.Motion
+        b.Transitions
+        c.Animations
+        d.Actions
+        e.Advanced Bindings
+        f.classes and styles
+        g.component composition
+        h.Context API
+        i.Special Elements
+        j.Module context
+        k.Miscellaneous
+    3.Basic SvelteKit
+        a.Introduction
+        b.Routing
+        c.Loading data
+        d.Headers and cookies
+        e.Shared modules
+        f.Forms
+        g.API Routes
+        h.Stores
+        i.Errors and redirects
+    4.Advanced SvelteKit
+        a.Hooks
+        b.Page options
+        c.Link Options
+        d.Advanced Routing
+        e.Advanced Loading
+        f.Environment Variables
+        g.Conclusion
+
+
+1. Basic Svelte:
+    a.Introduction:
+        * what is svelte?
+            - Svelte is a tool for building web applications. 
+            - Like other user interface frameworks, it allows you to build your app declaratively out of components that 
+                combine markup, styles and behaviours.
+            - These components are compiled into small, efficient JavaScript modules that eliminate overhead traditionally 
+                associated with UI frameworks.
+            - You can build your entire app with Svelte (for example, using an application framework like SvelteKit, 
+                which this tutorial will cover), or you can add it incrementally to an existing codebase. 
+            - You can also ship components as standalone packages that work anywhere.
+
+        * Your First Component:
+            - In Svelte, an application is composed from one or more components. 
+            - A component is a reusable self-contained block of code that encapsulates HTML, CSS and JavaScript that 
+                belong together, written into a .svelte file. 
+            
+            EX:
+                <script>
+                    let name = 'Svelte';
+                </script>
+
+                <h1>Hello {name.toUpperCase()}!</h1>
+
+        * Dynamic Attributes:
+            - Just like you can use curly braces to control text, you can use them to control element attributes.
+            EX:
+                <img src={src} />
+            - A11y: <img> element should have an alt attribute. 
+            - (Svelte will help by warning you if you write inaccessible markup.)
+
+        * Styling:
+            - Importantly, these rules are scoped to the component. You won't accidentally change the style of <p> elements 
+                elsewhere in your app
+            EX:
+                <p>This is a paragraph.</p>
+                <style>
+                    p {
+                        color: goldenrod;
+                        font-family: 'Comic Sans MS', cursive;
+                        font-size: 2em;
+                    }
+                </style>
+
+        * Nested Components:
+            - It would be impractical to put your entire app in a single component. 
+            - Instead, we can import components from other files and include them in our markup.
+            EX:
+                Nested.Svelte
+                <p>This is another paragraph.</p>
+
+                App.Svelte
+                <script>
+                    import Nested from './Nested.svelte';
+                </script>
+
+                <p>This is a paragraph.</p>
+                <Nested />
+
+                <style>
+                    p {
+                        color: goldenrod;
+                        font-family: 'Comic Sans MS', cursive;
+                        font-size: 2em;
+                    }
+                </style>
+            - Notice that even though Nested.svelte has a <p> element, the styles from App.svelte don't leak in.
+
+        * HTML Tags:
+            - sometimes you need to render HTML directly into a component. 
+            - For example, the words you're reading right now exist in a markdown file that gets included on this page 
+                as a blob of HTML.
+            - In Svelte, you do this with the special {@html ...} tag:
+            EX: 
+                <script>
+                    let string = `this string contains some <strong>HTML!!!</strong>`;
+                </script>
+
+                <p>{@html string}</p>
+
+
+    b.Reactivity:
+        * Assignments:
+            - At the heart of Svelte is a powerful system of reactivity for keeping the DOM in sync with your application 
+                state — for example, in response to an event.
+            EX:
+                <script>
+                    let count = 0;
+
+                    function increment() {
+                        count += 1;
+                    }
+                </script>
+
+                <button on:click={increment}>
+                    Clicked {count}
+                    {count === 1 ? 'time' : 'times'}
+                </button>
+
+        * Declarations:
+            - Svelte automatically updates the DOM when your component's state changes. 
+            - Often, some parts of a component's state need to be computed from other parts (such as a fullname derived 
+                from a firstname and a lastname), and recomputed whenever they change.
+            - For these, we have reactive declarations. They look like this:
+            EX: 
+                let count = 0;
+                $: doubled = count * 2;
+
+            EX:
+                <script>
+                    let count = 0;
+                    $: doubled = count * 2;
+
+                    function increment() {
+                        count += 1;
+                    }
+                </script>
+
+                <button on:click={increment}>
+                    Clicked {count}
+                    {count === 1 ? 'time' : 'times'}
+                </button>
+
+                <p>{count} doubled is {doubled}</p>
+
+        * Statements:
+            - We're not limited to declaring reactive values — we can also run arbitrary statements reactively. 
+            - For example, we can log the value of count whenever it changes:
+            EX:
+                let count = 0;
+
+                $: console.log(`the count is ${count}`);
+            - You can easily group statements together with a block:
+            EX:
+                $: {
+                    console.log(`the count is ${count}`);
+                    console.log(`this will also be logged whenever count changes`);
+                }
+            - You can even put the $: in front of things like if blocks:
+            EX:
+                $: if (count >= 10) {
+                    alert('count is dangerously high!');
+                    count = 0;
+                }
+
+        * Updating Arrays & Objects:
+            - Because Svelte's reactivity is triggered by assignments, using array methods like push and splice won't 
+                automatically cause updates. 
+            - For example, clicking the 'Add a number' button doesn't currently do anything, even though we're calling 
+                numbers.push(...) inside addNumber.
+            - One way to fix that is to add an assignment that would otherwise be redundant:
+            EX: 
+                function addNumber() {
+                    numbers.push(numbers.length + 1);
+                    numbers = numbers;
+                }
+            - But there's a more idiomatic solution:
+            EX:
+            function addNumber() {
+                numbers = [...numbers, numbers.length + 1];
+            }
+            - You can use similar patterns to replace pop, shift, unshift and splice.
+            - For Objects, A simple rule of thumb: the name of the updated variable must appear on the left hand side of the assignment. 
+            EX:
+                const obj = { foo: { bar: 1 } };
+                const foo = obj.foo;
+                foo.bar = 2;
+
+
+    c.Props:
+        * Declaring Props:
+            - In any real application, you'll need to pass data from one component down to its children. 
+            - To do that, we need to declare properties, generally shortened to 'props'. 
+            - In Svelte, we do that with the export keyword.
+            EX:
+                App.svelte
+                    <script>
+                        import Nested from './Nested.svelte';
+                    </script>
+
+                    <Nested answer={42} />
+
+                Nested.svelte
+                    <script>
+                        export let answer;
+                    </script>
+
+                    <p>The answer is {answer}</p>
+
+        * Default values:
+            - We can have a default value for the prop as shown in example.
+            EX:
+                App.svelte
+                    <script>
+                        import Nested from './Nested.svelte';
+                    </script>
+
+                    <Nested answer={42} /> // This case it will render 42
+                    <Nested  /> // This case it will render default prop 0.
+
+                Nested.svelte
+                    <script>
+                        export let answer = 0;
+                    </script>
+
+                    <p>The answer is {answer}</p>
+        
+        * Spread Props:
+            EX:
+                App.svelte
+                    <script>
+                        import PackageInfo from './PackageInfo.svelte';
+
+                        const pkg = {
+                            name: 'svelte',
+                            speed: 'blazing',
+                            version: 4,
+                            website: 'https://svelte.dev'
+                        };
+                    </script>
+                    <PackageInfo {...pkg} />
+
+                Nested.svelte
+                    <script>
+                        export let name;
+                        export let version;
+                        export let speed;
+                        export let website;
+                        $: href = `https://www.npmjs.com/package/${name}`;
+                    </script>
+
+                    <p>
+                        The <code>{name}</code> package is {speed} fast. Download version {version} from
+                        <a {href}>npm</a> and <a href={website}>learn more here</a>
+                    </p>
+
+
+    d.Logic:
+        * If blocks:
+            - HTML doesn't have a way of expressing logic, like conditionals and loops. Svelte does.
+            - To conditionally render some markup, we wrap it in an if block. 
+            - Let's add some text that appears when count is greater than 10:
+            EX:
+                <script>
+                    let count = 0;
+
+                    function increment() {
+                        count += 1;
+                    }
+                </script>
+
+                <button on:click={increment}>
+                    Clicked {count}
+                    {count === 1 ? 'time' : 'times'}
+                </button>
+
+                {#if count > 10}
+                    <p>{count} is greater than 10</p>
+                {/if}
+
+        * Else blocks:
+            - Just like in JavaScript, an if block can have an else block:
+            EX:
+                {#if count > 10}
+                    <p>{count} is greater than 10</p>
+                {:else}
+                    <p>{count} is between 0 and 10</p>
+                {/if}
+
+        * Else-if blocks:
+            - Multiple conditions can be 'chained' together with else if:
+            EX:
+                {#if count > 10}
+                    <p>{count} is greater than 10</p>
+                {:else if count < 5}
+                    <p>{count} is less than 5</p>
+                {:else}
+                    <p>{count} is between 5 and 10</p>
+                {/if}
+            
+        * Each blocks:
+            - When building user interfaces you'll often find yourself working with lists of data. 
+            - You can get the current index as a second argument, like so:
+            EX: 
+                <div>
+                    {#each colors as color, i}
+                        <button
+                            aria-current={selected === color}
+                            aria-label={color}
+                            style="background: {color}"
+                            on:click={() => selected = color}
+                        >{i + 1}</button>
+                    {/each}
+                </div>
+
+        * Keyed Each block:
+            - To do that, we specify a unique identifier (or "key") for each iteration of the each block:
+            EX:
+                {#each things as thing (thing.id)}
+                    <Thing name={thing.name}/>
+                {/each}
+            - Here, (thing.id) is the key, which tells Svelte how to figure out what to update when the values 
+                (name in this example) change.
+        
+        * Await blocks:
+            - Most web applications have to deal with asynchronous data at some point. 
+            - Svelte makes it easy to await the value of promises directly in your markup:
+            EX:
+                <script>
+                    import { getRandomNumber } from './utils.js';
+
+                    let promise = getRandomNumber();
+
+                    function handleClick() {
+                        promise = getRandomNumber();
+                    }
+                </script>
+
+                <button on:click={handleClick}>
+                    generate random number
+                </button>
+
+                {#await promise}
+                    <p>...waiting</p>
+                {:then number}
+                    <p>The number is {number}</p>
+                {:catch error}
+                    <p style="color: red">{error.message}</p>
+                {/await}
+
+
+    e.Events:
+        * DOM Events:
+            - As we've briefly seen already, you can listen to any DOM event on an element (such as click or pointermove) 
+                with the on: directive:
+            EX:
+                <script>
+                    let m = { x: 0, y: 0 };
+
+                    function handleMove(event) {
+                        m.x = event.clientX;
+                        m.y = event.clientY;
+                    }
+                </script>
+
+                <div on:pointermove={handleMove}>
+                    The pointer is at {m.x} x {m.y}
+                </div>
+
+                <style>
+                    div {
+                        position: fixed;
+                        left: 0;
+                        top: 0;
+                        width: 100%;
+                        height: 100%;
+                        padding: 1rem;
+                    }
+                </style>
+
+        * Inline handlers:
+            EX:
+                <script>
+                    let m = { x: 0, y: 0 };
+
+                    function handleMove(event) {
+                        m.x = event.clientX;
+                        m.y = event.clientY;
+                    }
+                </script>
+
+                <div
+                    on:pointermove={(e) => {
+                        m = { x: e.clientX, y: e.clientY };
+                    }}
+                >
+                    The pointer is at {m.x} x {m.y}
+                </div>
+
+        * Event Modifiers:
+            - DOM event handlers can have modifiers that alter their behaviour. 
+            - For example, a handler with a once modifier will only run a single time:
+            EX:
+                <button on:click|once={() => alert('clicked')}>
+                    Click me
+                </button>
+            - The full list of modifiers:
+                1.preventDefault — calls event.preventDefault() before running the handler. 
+                    Useful for client-side form handling, for example.
+                2.stopPropagation — calls event.stopPropagation(), preventing the event reaching the next element
+                3.passive — improves scrolling performance on touch/wheel events   
+                    (Svelte will add it automatically where it's safe to do so)
+                4.nonpassive — explicitly set passive: false
+                5.capture — fires the handler during the capture phase instead of the bubbling phase
+                6.once — remove the handler after the first time it runs
+                7.self — only trigger handler if event.target is the element itself
+                8.trusted — only trigger handler if event.isTrusted is true, meaning the event was triggered by a 
+                    user action rather than because some JavaScript called element.dispatchEvent(...)
+        
+        * Component events:
+            - Components can also dispatch events. To do so, they must create an event dispatcher.
+            EX:
+                App.svelte:
+                    <script>
+                        import Inner from './Inner.svelte';
+
+                        function handleMessage(event) {
+                            alert(event.detail.text);
+                        }
+                    </script>
+
+                    <Inner on:message={handleMessage} />
+
+                Inner.svelte:
+                    <script>
+                        import { createEventDispatcher } from 'svelte';
+
+                        const dispatch = createEventDispatcher();
+
+                        function sayHello() {
+                            dispatch('message', {
+                                text: 'Hello!'
+                            });
+                        }
+                    </script>
+
+                    <button on:click={sayHello}>
+                        Click to say hello
+                    </button>
+
+        * Event Forwarding:
+            - Unlike DOM events, component events don't bubble. 
+            - If you want to listen to an event on some deeply nested component, the intermediate components must 
+                forward the event.
+            EX:
+                App.svelte
+                    <script>
+                        import Outer from './Outer.svelte';
+
+                        function handleMessage(event) {
+                            alert(event.detail.text);
+                        }
+                    </script>
+
+                    <Outer on:message={handleMessage} />
+
+                Outer.svelte
+                    <script>
+                        import Inner from './Inner.svelte';
+                    </script>
+
+                    <Inner on:message />
+
+                Inner.svelte
+                    <script>
+                        import { createEventDispatcher } from 'svelte';
+
+                        const dispatch = createEventDispatcher();
+
+                        function sayHello() {
+                            dispatch('message', {
+                                text: 'Hello!'
+                            });
+                        }
+                    </script>
+
+                    <button on:click={sayHello}>
+                        Click to say hello
+                    </button>
+
+        * Dom Event Forwarding:
+            - Event forwarding works for DOM events too.
+            - We want to get notified of clicks on our <BigRedButton> — to do that, we just need to forward click events 
+                on the <button> element in BigRedButton.svelte:
+            EX:
+                App.svelte:
+                    <script>
+                        import BigRedButton from './BigRedButton.svelte';
+                        import horn from './horn.mp3';
+
+                        const audio = new Audio();
+                        audio.src = horn;
+
+                        function handleClick() {
+                            audio.load();
+                            audio.play();
+                        }
+                    </script>
+
+                    <BigRedButton on:click={handleClick} />
+
+                BigRedButton.svelte:
+                    <button on:click>
+                        Push
+                    </button>
+
+
+    f.Bindings:
+        * Text Inputs:
+            - As a general rule, data flow in Svelte is top down — a parent component can set props on a child component, 
+                and a component can set attributes on an element, but not the other way around.
+            - Sometimes it's useful to break that rule. 
+            - Take the case of the <input> element in this component — we could add an on:input event handler that sets 
+                the value of name to event.target.value, but it's a bit... boilerplatey. 
+            - It gets even worse with other form elements, as we'll see.
+            - Instead, we can use the bind:value directive:
+            EX:
+                <script>
+                    let name = 'world';
+                </script>
+
+                <input bind:value={name} />
+
+                <h1>Hello {name}!</h1>
+            - This means that not only will changes to the value of name update the input value, but changes to the input 
+                value will update name.
+
+        * Numeric Inputs:
+            EX:
+                <script>
+                    let a = 1;
+                    let b = 2;
+                </script>
+
+                <label>
+                    <input type="number" bind:value={a} min="0" max="10" />
+                    <input type="range" bind:value={a} min="0" max="10" />
+                </label>
+
+                <label>
+                    <input type="number" bind:value={b} min="0" max="10" />
+                    <input type="range" bind:value={b} min="0" max="10" />
+                </label>
+
+                <p>{a} + {b} = {a + b}</p>
+
+        * Check Box Inputs:
+            - Checkboxes are used for toggling between states. 
+            - Instead of binding to input.value, we bind to input.checked:
+            EX:
+                <script>
+                    let yes = false;
+                </script>
+                <input type="checkbox" bind:checked={yes}>
+
+        * Select Bindings:
+            - We can also use bind:value with <select> elements:
+            EX:
+                <select
+                    bind:value={selected}
+                    on:change={() => answer = ''}
+                >
+            - Note that the <option> values are objects rather than strings. Svelte doesn't mind.
+
+        * Group Inputs:
+            - If you have multiple type="radio" or type="checkbox" inputs relating to the same value, you can use 
+                bind:group along with the value attribute. 
+            - Radio inputs in the same group are mutually exclusive; checkbox inputs in the same group form an array 
+                of selected values.
+            - Add bind:group={scoops} to the radio inputs...
+            EX:
+                <script>
+                    let scoops = 1;
+                    let flavours = [];
+
+                    const formatter = new Intl.ListFormat('en', { style: 'long', type: 'conjunction' });
+                </script>
+
+                <h2>Size</h2>
+
+                {#each [1, 2, 3] as number}
+                    <label>
+                        <input
+                            type="radio"
+                            name="scoops"
+                            value={number}
+                            bind:group={scoops}
+                        />
+
+                        {number} {number === 1 ? 'scoop' : 'scoops'}
+                    </label>
+                {/each}
+
+                <h2>Flavours</h2>
+
+                {#each ['cookies and cream', 'mint choc chip', 'raspberry ripple'] as flavour}
+                    <label>
+                        <input
+                            type="checkbox"
+                            name="flavours"
+                            value={flavour}
+                            bind:group={flavours}
+                        />
+
+                        {flavour}
+                    </label>
+                {/each}
+
+                {#if flavours.length === 0}
+                    <p>Please select at least one flavour</p>
+                {:else if flavours.length > scoops}
+                    <p>Can't order more flavours than scoops!</p>
+                {:else}
+                    <p>
+                        You ordered {scoops} {scoops === 1 ? 'scoop' : 'scoops'}
+                        of {formatter.format(flavours)}
+                    </p>
+                {/if}
+
+
+    g.Lifecycle:
+        * onMount:
+            - Every component has a lifecycle that starts when it is created, and ends when it is destroyed. 
+            - There are a handful of functions that allow you to run code at key moments during that lifecycle. 
+            - The one you'll use most frequently is onMount, which runs after the component is first rendered to the DOM.
+            EX:
+                <script>
+                    import { onMount } from 'svelte';
+                    import { paint } from './gradient.js';
+                </script>
+            - Then, add a callback that runs when the component mounts:
+            EX:
+                <script>
+                    import { onMount } from 'svelte';
+                    import { paint } from './gradient.js';
+
+                    onMount(() => {
+                        const canvas = document.querySelector('canvas');
+                        const context = canvas.getContext('2d');
+
+                        let frame = requestAnimationFrame(function loop(t) {
+                            frame = requestAnimationFrame(loop);
+                            paint(context, t);
+                        });
+
+                        return () => {
+                            cancelAnimationFrame(frame);
+                        };
+                    });
+                </script>   
+            - We need to run cleanup function to free resource or to unsubscribe changes.
+        
+        * Before update & After update:
+            - The beforeUpdate function schedules work to happen immediately before the DOM is updated. 
+            - afterUpdate is its counterpart, used for running code once the DOM is in sync with your data.
+            - Together, they're useful for doing things imperatively that are difficult to achieve in a purely state-driven way, 
+                like updating the scroll position of an element.
+            - This Eliza chatbot is annoying to use, because you have to keep scrolling the chat window. Let's fix that.
+            EX:
+                let div;
+                let autoscroll = false;
+
+                beforeUpdate(() => {
+                    if (div) {
+                        const scrollableDistance = div.scrollHeight - div.offsetHeight;
+                        autoscroll = div.scrollTop > scrollableDistance - 20;
+                    }
+                });
+
+                afterUpdate(() => {
+                    if (autoscroll) {
+                        div.scrollTo(0, div.scrollHeight);
+                    }
+                });
+            - Note that beforeUpdate will first run before the component has mounted, so we need to check for the existence 
+                of div before reading its properties.
+
+        * Tick:
+            - The tick function is unlike other lifecycle functions in that you can call it any time, not just when the 
+                component first initialises. 
+            - It returns a promise that resolves as soon as any pending state changes have been applied to the DOM 
+                (or immediately, if there are no pending state changes).
+            - When you update component state in Svelte, it doesn't update the DOM immediately. 
+            - Instead, it waits until the next microtask to see if there are any other changes that need to be applied, 
+                including in other components. 
+            - Doing so avoids unnecessary work and allows the browser to batch things more effectively.
+            EX:
+                <script>
+                    let text = `Select some text and hit the tab key to toggle uppercase`;
+
+                    async function handleKeydown(event) {
+                        if (event.key !== 'Tab') return;
+
+                        event.preventDefault();
+
+                        const { selectionStart, selectionEnd, value } = this;
+                        const selection = value.slice(selectionStart, selectionEnd);
+
+                        const replacement = /[a-z]/.test(selection)
+                            ? selection.toUpperCase()
+                            : selection.toLowerCase();
+
+                        text =
+                            value.slice(0, selectionStart) +
+                            replacement +
+                            value.slice(selectionEnd);
+
+                        // this has no effect, because the DOM hasn't updated yet --> add this --> await tick();
+                        this.selectionStart = selectionStart;
+                        this.selectionEnd = selectionEnd;
+                    }
+                </script>
+
+                <textarea
+                    value={text}
+                    on:keydown={handleKeydown}
+                ></textarea>
+
+                <style>
+                    textarea {
+                        width: 100%;
+                        height: 100%;
+                        resize: none;
+                    }
+                </style>
+
+            - You can see that behaviour in this example. 
+            - Select a range of text and hit the tab key. 
+            - Because the <textarea> value changes, the current selection is cleared and the cursor jumps, 
+                annoyingly, to the end. 
+            - We can fix this by importing tick, and running it immediately before we set this.selectionStart and 
+                this.selectionEnd at the end of handleKeydown:
+
+
+    h.Store:
+        *
+
+
+
+3. Basic SvelteKit:
+    a.Introduction:
+        * What is SvelteKit?
+            - Whereas Svelte is a component framework, SvelteKit is an app framework that solves the tricky problems of 
+                building something production-ready:
+                1.Routing
+                2.Server-side rendering
+                3.Data fetching
+                4.Service workers
+                5.TypeScript integration
+                6.Prerendering
+                7.Single-page apps
+                8.Library packaging
+                9.Optimised production builds
+                10.Deploying to different hosting providers
+            - SvelteKit apps are server-rendered by default for excellent first load performance and SEO characteristics, 
+                but can then transition to client-side navigation to avoid jankily reloading everything when the user navigates. 
+            - They can run anywhere JavaScript runs, though — as we'll see — your users may not need to run any JavaScript at all.
+
+
+    b.Routing:
+        * Pages:
+            - SvelteKit uses filesystem-based routing, which means that the routes of your app — in other words, what the app 
+                should do when a user navigates to a particular URL — are defined by the directories in your codebase.
+            - Every +page.svelte file inside src/routes creates a page in your app.
+            - If we navigate to /about, we'll see a 404 Not Found error.(if we didnt have about directory).
+
+        * Layouts:
+            - Different routes of your app will often share common UI. 
+            - Instead of repeating it in each +page.svelte component, we can use a +layout.svelte component that applies 
+                to all routes in the same directory.
+            - The <slot></slot> element is where the page content will be rendered:
+            EX:
+                src/routes/+layout.svelte
+                    <nav>
+                        <a href="/">home</a>
+                        <a href="/about">about</a>
+                    </nav>
+
+                    <slot></slot>
+
+        * Route Parameters:
+            - To create routes with dynamic parameters, use square brackets around a valid variable name. 
+            - For example, a file like src/routes/blog/[slug]/+page.svelte will create a route that matches 
+                /blog/one, /blog/two, /blog/three and so on.
+
+
+    c.Loading data:
+        * Page data:
+            - At its core, SvelteKit's job boils down to three things:
+                1.Routing — figure out which route matches an incoming request
+                2.Loading — get the data needed by the route
+                3.Rendering — generate some HTML (on the server) or update the DOM (in the browser)
+            - We've seen how routing and rendering work. Let's talk about the middle part — loading.
+            - Every page of your app can declare a load function in a +page.server.js file alongside the +page.svelte file. 
+            - As the file name suggests, this module only ever runs on the server, including for client-side navigations. 
+            - Let's add a src/routes/blog/+page.server.js file so that we can replace the hard-coded links in 
+                src/routes/blog/+page.svelte with actual blog post data:
+
+        * Layout data:
+            - Just as +layout.svelte files create UI for every child route, +layout.server.js files load data for 
+                every child route.
+            - Suppose we'd like to add a 'more posts' sidebar to our blog post page. 
+            - We could return summaries from the load function in src/routes/blog/[slug]/+page.server.js, like we do in 
+                src/routes/blog/+page.server.js, but that would be repetitive.
+            - Instead, let's rename src/routes/blog/+page.server.js to src/routes/blog/+layout.server.js. 
+            - Notice that the /blog route continues to work — data.summaries is still available to the page.
+            - Now, add a sidebar in the layout for the post page:
+            EX:
+                src/routes/blog/[slug]/+layout.svelte
+                    <script>
+                        export let data;
+                    </script>
+
+                    <div class="layout">
+                        <main>
+                            <slot></slot>
+                        </main>
+
+                        <aside>
+                            <h2>More posts</h2>
+                            <ul>
+                                {#each data.summaries as { slug, title }}
+                                    <li>
+                                        <a href="/blog/{slug}">{title}</a>
+                                    </li>
+                                {/each}
+                            </ul>
+                        </aside>
+                    </div>
+
+                    <style>
+                        @media (min-width: 640px) {
+                            .layout {
+                                display: grid;
+                                gap: 2em;
+                                grid-template-columns: 1fr 16em;
+                            }
+                        }
+                    </style>
+            - The layout (and any page below it) inherits data.summaries from the parent +layout.server.js.
+            - When we navigate from one post to another, we only need to load the data for the post itself — the layout data 
+                is still valid.
+
+
+    d.Headers and Cookies:
+        * Setting Headers:
+            - Inside a load function (as well as in form actions, hooks and API routes, which we'll learn about later) you have 
+                access to a setHeaders function, which — unsurprisingly — can be used to set headers on the response.
+            - Most commonly, you'd use it to customise caching behaviour with the Cache-Control response header, but for the 
+                sake of this tutorial we'll do something less advisable and more dramatic:
+            EX:
+                src/routes/+page.server.js
+                    export function load({ setHeaders }) {
+                        setHeaders({
+                            'Content-Type': 'text/plain'
+                        });
+                    }
+
+        * Reading and writing Cookies:
+            - The setHeaders function can't be used with the Set-Cookie header. Instead, you should use the cookies API.
+            - In your load functions, you can read a cookie with cookies.get(name, options):
+            EX:
+                src/routes/+page.server.js
+                    export function load({ cookies }) {
+                        const visited = cookies.get('visited');
+
+                        return {
+                            visited: visited === 'true'
+                        };
+                    }
+            - To set a cookie, use cookies.set(name, value, options). 
+            - It's strongly recommended that you explicitly configure the path when setting a cookie, since browsers' default 
+                behaviour — somewhat uselessly — is to set the cookie on the parent of the current path.
+            EX:
+                src/routes/+page.server.js
+                    export function load({ cookies }) {
+                        const visited = cookies.get('visited');
+
+                        cookies.set('visited', 'true', { path: '/' });
+
+                        return {
+                            visited: visited === 'true'
+                        };
+                    }
+            - Calling cookies.set(name, ...) causes a Set-Cookie header to be written, but it also updates the internal map 
+                of cookies, meaning any subsequent calls to cookies.get(name) during the same request will return the 
+                updated value. 
+            - Under the hood, the cookies API uses the popular cookie package — the options passed to cookies.get and cookies.set
+                correspond to the parse and serialize options from the cookie documentation. 
+
+
+    e.Shared module:
+        * The $lib alias:
+            - Because SvelteKit uses directory-based routing, it's easy to place modules and components alongside the routes 
+                that use them. 
+            - A good rule of thumb is 'put code close to where it's used'.
+            - Sometimes, code is used in multiple places. When this happens, it's useful to have a place to put them 
+                that can be accessed by all routes without needing to prefix imports with ../../../../. In SvelteKit, 
+                that place is the src/lib directory. 
+            - Anything inside this directory can be accessed by any module in src via the $lib alias.
+            EX:
+                <script>
+                    import { message } from '$lib/message.js';
+                </script>
+
+                <h1>a deeply nested route</h1>
+                <p>{message}</p>
+
+
+    f.Forms:
+        * The <form> element:
+            - In the chapter on loading data, we saw how to get data from the server to the browser. 
+            - Sometimes you need to send data in the opposite direction, and that's where <form> — the web platform's way of 
+                submitting data — comes in.
+            - Let's build a todo app. 
+            - We've already got an in-memory database set up in src/lib/server/database.js, and our load function in 
+                src/routes/+page.server.js uses the cookies API so that we can have a per-user todo list, but we need to add a 
+                <form> to create new todos:
+            EX:
+                src/routes/+page.svelte:
+                    <h1>todos</h1>
+
+                    <form method="POST">
+                        <label>
+                            add a todo:
+                            <input
+                                name="description"
+                                autocomplete="off"
+                            />
+                        </label>
+                    </form>
+
+                    <ul class="todos">
+            - If we type something into the <input> and hit Enter, the browser makes a POST request (because of the method="POST" 
+                attribute) to the current page. 
+            - But that results in an error, because we haven't created a server-side action to handle the POST request. 
+            - Let's do that now:
+            EX:
+                src/routes/+page.server.js
+                    import * as db from '$lib/server/database.js';
+
+                    export function load({ cookies }) {
+                        // ...
+                    }
+
+                    export const actions = {
+                        default: async ({ cookies, request }) => {
+                            const data = await request.formData();
+                            db.createTodo(cookies.get('userid'), data.get('description'));
+                        }
+                    };
+            - The request is a standard Request object; await request.formData() returns a FormData instance.
+            - When we hit Enter, the database is updated and the page reloads with the new data.
+            - Notice that we haven't had to write any fetch code or anything like that — data updates automatically. 
+            - And because we're using a <form> element, this app would work even if JavaScript was disabled or unavailable.
+
+        * Named Form Actions:
+            - A page that only has a single action is, in practice, quite rare. 
+            - Most of the time you'll need to have multiple actions on a page. 
+            - In this app, creating a todo isn't enough — we'd like to delete them once they're complete.
+            - Begin by replacing our default action with named create and delete actions:
+            EX:
+                src/routes/+page.server.js
+                    export const actions = {
+                        create: async ({ cookies, request }) => {
+                            const data = await request.formData();
+                            db.createTodo(cookies.get('userid'), data.get('description'));
+                        },
+
+                        delete: async ({ cookies, request }) => {
+                            const data = await request.formData();
+                            db.deleteTodo(cookies.get('userid'), data.get('id'));
+                        }
+                    }; // Default actions cannot coexist with named actions.
+            - The <form> element has an optional action attribute, which is similar to an <a> element's href attribute. 
+            - Update the existing form so that it points to the new create action:
+            EX: 
+                src/routes/+page.svelte
+                    <form method="POST" action="?/create">
+                        <label>
+                            add a todo:
+                            <input
+                                name="description"
+                                autocomplete="off"
+                            />
+                        </label>
+                    </form>
+            EX:
+                src/routes/+page.svelte
+                    <ul class="todos">
+                        {#each data.todos as todo (todo.id)}
+                            <li>
+                                <form method="POST" action="?/delete">
+                                    <input type="hidden" name="id" value={todo.id} />
+                                    <span>{todo.description}</span>
+                                    <button aria-label="Mark as complete"></button>
+                                </form>
+                            </li>
+                        {/each}
+                    </ul>
+
+        * Form validations:
+            - The first line of defense is the browser's built-in form validation, which makes it easy to, for example, 
+                mark an <input> as required:
+            EX: 
+                <form method="POST" action="?/create">
+                    <label>
+                        add a todo
+                        <input
+                            name="description"
+                            autocomplete="off"
+                            required
+                        />
+                    </label>
+                </form>
+            - you should always use server-side validation because frontend validation can be manipulated with developer tools.
+
+        * Progressive Enhancement:
+            - Because we're using <form>, our app works even if the user doesn't have JavaScript (which happens more often 
+                than you probably think). That's great, because it means our app is resilient.
+            - Most of the time, users do have JavaScript. In those cases, we can progressively enhance the experience, 
+                the same way SvelteKit progressively enhances <a> elements by using client-side routing.
+            - Import the enhance function from $app/forms
+            EX: 
+                <script>
+                    import { enhance } from '$app/forms';
+
+                    export let data;
+                    export let form;
+                </script>
+            - and add the use:enhance directive to the <form> elements:
+            EX:
+                <form method="POST" action="?/create" use:enhance>
+            - And that's all it takes! Now, when JavaScript is enabled, use:enhance will emulate the browser-native 
+                behaviour except for the full-page reloads. It will:
+                1.update the form prop
+                2.invalidate all data on a successful response, causing load functions to re-run
+                3.navigate to the new page on a redirect response
+                4.render the nearest error page if an error occurs
+
+        * Customizing use:enhance:
+            - With use:enhance, we can go further than just emulating the browser's native behaviour. 
+            - By providing a callback, we can add things like pending states and optimistic UI. 
+            - Let's simulate a slow network by adding an artificial delay to our two actions:
+            EX: 
+                export const actions = {
+                    create: async ({ cookies, request }) => {
+                        await new Promise((fulfil) => setTimeout(fulfil, 1000));
+                        ...
+                    },
+
+                    delete: async ({ cookies, request }) => {
+                        await new Promise((fulfil) => setTimeout(fulfil, 1000));
+                        ...
+                    }
+                };
+            - When we create or delete items, it now takes a full second before the UI updates, leaving the user wondering if 
+                they messed up somehow. 
+            - To solve that, add some local state and toggle creating inside the first use:enhance:
+            EX: 
+                <script>
+                    import { fly, slide } from 'svelte/transition';
+                    import { enhance } from '$app/forms';
+
+                    export let data;
+                    export let form;
+
+                    let creating = false;
+                    let deleting = [];
+                </script>
+
+                <form
+                    method="POST"
+                    action="?/create"
+                    use:enhance={() => {
+                        creating = true;
+
+                        return async ({ update }) => {
+                            await update();
+                            creating = false;
+                        };
+                    }}
+                >
+                    <label>
+                        add a todo:
+                        <input
+                            disabled={creating}
+                            name="description"
+                            value={form?.description ?? ''}
+                            autocomplete="off"
+                            required
+                        />
+                    </label>
+                </form>
+            - We can then show a message while we're saving data:
+            EX: 
+                {#if creating}
+                    <span class="saving">saving...</span>
+                {/if}
+
+
+    g.API Routes:
+        * GET handler:
+            - SvelteKit allows you to create more than just pages. 
+            - We can also create API routes by adding a +server.js file that exports functions corresponding to HTTP 
+                methods: GET, PUT, POST, PATCH and DELETE.
+            - This app fetches data from a /roll API route when you click the button. 
+            - Create that route by adding a src/routes/roll/+server.js file:
+            EX: 
+                import { json } from '@sveltejs/kit';
+
+                export function GET() {
+                    const number = Math.floor(Math.random() * 6) + 1;
+
+                    return json(number);
+                }
+
+        * POST handler:
+            - You can also add handlers that mutate data, such as POST. 
+            - In most cases, you should use form actions instead — you'll end up writing less code, and it'll work without 
+                JavaScript, making it more resilient.
+            - Inside the keydown event handler of the 'add a todo' <input>, let's post some data to the server:
+
+        * Other handlers:
+            - Similarly, we can add handlers for other HTTP verbs. Add a /todo/[id] route by creating a 
+                src/routes/todo/[id]/+server.js file with PUT and DELETE handlers for toggling and removing todos, using the 
+                toggleTodo and deleteTodo functions in src/lib/server/database.js:
+
+
+    h.Stores:
+        * Page:
+            - As we learned earlier, Svelte stores are a place to put data that doesn't belong to an individual component.
+            - SvelteKit makes three readonly stores available via the $app/stores module — page, navigating and updated. 
+            - The one you'll use most often is page, which provides information about the current page:
+                1.url — the URL of the current page
+                2.params — the current page's parameters
+                3.route — an object with an id property representing the current route
+                4.status — the HTTP status code of the current page
+                5.error — the error object of the current page, if any (you'll learn more about error handling in later exercises)
+                6.data — the data for the current page, combining the return values of all load functions
+                7.form — the data returned from a form action
+            - As with any other store, you can reference its value in a component by prefixing its name with the $ symbol. 
+            - For example, we can access the current pathname as $page.url.pathname:
+            EX:
+                <script>
+                    import { page } from '$app/stores';
+                </script>
+
+                <nav>
+                    <a href="/" aria-current={$page.url.pathname === '/'}>
+                        home
+                    </a>
+
+                    <a href="/about" aria-current={$page.url.pathname === '/about'}>
+                        about
+                    </a>
+                </nav>
+
+                <slot></slot>
+
+        * Navigating:
+            - The navigating store represents the current navigation. When a navigation starts — because of a link click, 
+                or a back/forward navigation, or a programmatic goto — the value of navigating will become an object with the 
+                following properties:
+                1.from and to — objects with params, route and url properties
+                2.type — the type of navigation, e.g. link, popstate or goto
+            EX:
+                <script>
+                    import { page, navigating } from '$app/stores';
+                </script>
+
+                <nav>
+                    <a href="/" aria-current={$page.url.pathname === '/'}>
+                        home
+                    </a>
+
+                    <a href="/about" aria-current={$page.url.pathname === '/about'}>
+                        about
+                    </a>
+
+                    {#if $navigating}
+                        navigating to {$navigating.to.url.pathname}
+                    {/if}
+                </nav>
+
+                <slot></slot>
+        
+        * Updated:
+            - The updated store contains true or false depending on whether a new version of the app has been deployed 
+                since the page was first opened. 
+            - For this to work, your svelte.config.js must specify kit.version.pollInterval.
+            EX:
+                <script>
+                    import { page, navigating, updated } from '$app/stores';
+                </script>
+            - Version changes only happen in production, not during development. 
+            - For that reason, $updated will always be false in this tutorial.
+            - You can manually check for new versions, regardless of pollInterval, by calling updated.check().
+            EX:
+                {#if $updated}
+                    <div class="toast">
+                        <p>
+                            A new version of the app is available
+
+                            <button on:click={() => location.reload()}>
+                                reload the page
+                            </button>
+                        </p>
+                    </div>
+                {/if}
+
+
+    i.Errors & Redirects:
+        * Basics:
+            - There are two types of errors in SvelteKit — expected errors and unexpected errors.

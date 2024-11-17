@@ -1,0 +1,103 @@
+1. What is React?
+ 2. What is useMemo ?
+ 3. What are the features of React ?
+ 4. What is JSX ?
+ 5. What is DOM ?
+ 6. What is Virtual Dom ?
+ 7. What is component life cycle of React class component ?
+ 8. What are fragments in react ?
+ 9. What are props in react ?
+ 10. What are synthetic events in react ?
+ 11. What are the difference between Package.json and Package.lock.json ?
+ 12. What are the differences between client side and server side rendering ?
+ 13. What is state in Reactjs?
+ 14. What are props ?
+ 15. What are the differences between State and Props in react ?
+ 16. What is props drilling ?
+ 17. What are the disadvantages of props drilling and How we can avoid props drilling ?
+ 18. What are Pure components in React ?
+ 19. Whatare Ref’s in React?
+ 20. What is meant by forward ref ?
+ 21. What are Error boundaries ?
+ 22. What are Higher order components in react ?
+ 23. What are the differences between controlled and uncontrolled components ? 
+ 24. What is useCallback ?
+ 25. What are the differences between useMemo and useCallback ?
+ 26. What are keys in React ?
+ 27. What is Lazy loading in React ?
+ 28. What is suspense in React ?
+ 29. What are custom hooks ?
+ 30. What is useReducer hook ?
+ 31. What are Portals in react ?
+ 32. What is context in react ?
+ 33. Practical question: Give an example of context api usage ?
+ 34. What is the purpose of callback function as an argument of setState()?
+ 35. Practical question: create a custom hook for increment/decrement counter ?
+ 36. Which lifecycle hooks in class component are replaced with useEffect in functional components ?
+ 37. What is Strict mode in react ?
+ 38. What are the different ways to pass data from child component to parent component in react ?
+ 39. Practical question: How to send data from child to parent using callback functions ?
+ 40. Practical question: How to send the data from child component to parent using useRef ?
+ 41. How do you optimize your react application ?
+ 42. How would you consume a RESTful JSON API in reactjs?
+ 43.different design patterns used in react?
+ 44. context api vs redux
+ 45. prop types in react(How to apply validation on props in react)
+ 46. What are React Mixins ?
+ 47. what are the different hooks you have used ?
+ 48. What are render props in react ?
+ 49. What are the different types of exports and imports ?
+ 50. What are the differences between create element vs clone element in react ?
+ 51. When to use useState and useReducer?
+ 52. What is flushSync in react ?
+ 53. What are protected routes in react ?
+ 54. What is react-routerhas context menu
+
+
+
+
+1. What is React? 
+2. Explain the difference between Real DOM and Virtual DOM? 
+3. What are the key features of React? 
+4. What is JSX? 
+5. Why can't browsers read JSX? 
+6. What are React components? 
+7. Differentiate between a Class component and a Functional component. 
+8. What is the difference between state and props in React? 
+9. What are React hooks? Name some common hooks. 
+10. How do useState and useEffect work in React? 
+11. What is the importance of key in React? 
+12. Explain the concept of lifting state up in React. 
+13. How does one pass data between components in React? 
+14. What are the new features introduced in React 18? 
+15. What is concurrent rendering in React 18? 
+16. How does automatic batching work in React 18? 
+17. What is the useTransition hook, and how does it work? 
+18. Explain the working of useDeferredValue in React 18. 
+19. What is Suspense in React, and how does it work? 
+20. How has React 18 improved Suspense? 
+21. What is the new startTransition function in React 18? 
+22. What is the difference between useTransition and startTransition? 
+23. How do you use the Concurrent Features introduced in React 18? 
+24. How does React 18 enhance server-side rendering (SSR)? 
+25. What is React Server Components, and how does it work with React 18? 
+26. What role does the concurrentMode flag play in React 18? 
+27. Explain the React lifecycle methods in detail. 
+28. What is React Context API, and when would you use it? 
+29. What are higher-order components (HOCs) in React? 
+30. How does React handle forms and controlled components? 
+31. What are uncontrolled components in React? 
+32. What is Prop Drilling, and how can it be avoided? 
+33. What are React Portals, and when should you use them? 
+34. What is the significance of React’s shouldComponentUpdate method? 
+35. What are Fragments in React? 
+36. Explain the concept of memoization in React using React.memo and useMemo. 
+37. How do you optimize performance in a React application? 
+38. What are the rules for using React Hooks? 
+39. How do you handle errors in React using error boundaries? 
+40. What is the componentDidCatch() method in React? 
+41. What are synthetic events in React? 
+42. How can you test a React component? 
+43. What is the role of Jest in React testing? 
+44. What is the difference between shallow rendering and full rendering in testing? 
+45. How does one implement lazy loading in React?

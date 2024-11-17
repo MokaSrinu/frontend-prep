@@ -1,0 +1,10 @@
+1. migration from webpack to vite -- done.
+2. Project version upgradtion. -- done.
+3. Typescript and Javascript hybrid support for react project with vite. -- done.
+4. Testing setup with Jest and React-testing-library with vite and ts. -- done.
+5. eslint and prettier setup --done.
+6. conventional commits with husky. -- done. 
+7. port - 8080 and navigating to browser when dev server started. -- done.
+8. Constants and env  variables. --done
+9. dev build and prod build. -- done
+

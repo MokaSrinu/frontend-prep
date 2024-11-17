@@ -1,0 +1,720 @@
+
+# 🍀 Basic JavaScript Concepts
+
+1. Data types
+2. Functions
+3. Scope in JavaScript
+4. Closure
+5. Event loop
+6. Prototype and prototype chain
+7. Class and inheritance
+8. DOM manipulation
+9. call/apply/bind
+10. Promises
+11. Web APIs
+12. Task queue
+13. Call stack
+14. Async/await
+15. Generators
+16. TypeScript
+
+
+1. Data Types: (2 types) Type of data which variable holds.
+    a. primitive Data Types: (Immutable) --> Number, String, Boolean, Undefined, Null, Symbol, BigInt
+    b. Non-Primitive Data Types: (basically Reference types) --> Object, Array, Functions.
+
+
+2. Functions: 
+    In JavaScript, functions are fundamental building blocks. 
+    They allow you to encapsulate code for reuse, organization, and modularity. 
+    There are several ways to define and use functions in JavaScript, each with its own syntax and use cases.
+
+    a. Function Declarations: 
+        - A function declaration defines a named function that can be called anywhere in the scope where it is defined.
+        EX:
+            function greet(name) {
+                return `Hello, ${name}!`;
+            }
+            console.log(greet("Alice")); // "Hello, Alice!"
+
+    b. Function Expressions: 
+        - A function expression defines a function inside an expression and can be named or anonymous. 
+        - Function expressions are not hoisted, meaning they cannot be called before they are defined.
+        EX:
+            const greet = function(name) {
+                return `Hello, ${name}!`;
+            };
+            console.log(greet("Bob")); // "Hello, Bob!"
+
+    c. Arrow Functions:     
+        - Arrow functions provide a more concise syntax and do not have their own this context, 
+            making them suitable for non-method functions.
+        EX:
+            const greet = (name) => `Hello, ${name}!`;
+            console.log(greet("Charlie")); // "Hello, Charlie!"
+
+    d. Immediately Invoked Function Expressions (IIFE): 
+        - IIFE is a function that is executed immediately after it is defined.
+        EX:
+            (function() {
+                console.log("This is an IIFE");
+            })();
+
+    e. Methods: 
+        - Functions can also be defined as object properties. 
+        - When a function is defined in this way, it is referred to as a method.
+        EX:
+            const person = {
+                name: "Alice",
+                greet: function() {
+                    return `Hello, ${this.name}!`;
+                }
+            };
+            console.log(person.greet()); // "Hello, Alice!"
+
+    f. The 'this' Keyword: 
+        - The this keyword refers to the context in which the function is called. 
+        - Its value depends on how the function is called.
+        EX:
+            const person = {
+                name: "Alice",
+                greet() {
+                    console.log(this.name);
+                }
+            };
+
+            person.greet(); // "Alice"
+
+            const greet = person.greet;
+            greet(); // undefined or error in strict mode
+
+    g. Constructor Functions: 
+        - Functions can be used to create objects using the new keyword. 
+        - These are called constructor functions.
+        EX:
+            function Person(name) {
+                this.name = name;
+            }
+
+            const alice = new Person("Alice");
+            console.log(alice.name); // "Alice"
+
+    h. Default Parameters: 
+        - Functions can have default parameter values.
+        EX:
+            function greet(name = "stranger") {
+                return `Hello, ${name}!`;
+            }
+            console.log(greet()); // "Hello, stranger!"
+
+    i. Rest Parameters: 
+        - The rest parameter syntax allows a function to accept an indefinite number of arguments as an array.
+        EX:
+            function sum(...numbers) {
+                return numbers.reduce((acc, curr) => acc + curr, 0);
+            }
+            console.log(sum(1, 2, 3, 4)); // 10
+
+    j. Higher-Order Functions: 
+        - Functions that accept other functions as arguments or return functions as their results are called 
+            higher-order functions.
+        EX:
+            function applyOperation(a, b, operation) {
+                return operation(a, b);
+            }
+
+            const result = applyOperation(5, 3, (x, y) => x * y);
+            console.log(result); // 15 
+
+    k. Recursion: 
+        Functions can call themselves to solve problems that can be broken down into smaller, similar problems.
+        EX:
+            function factorial(n) {
+                if (n === 0) return 1;
+                return n * factorial(n - 1);
+            }
+            console.log(factorial(5)); // 120
+
+    l. Asynchronous Functions: 
+        JavaScript supports asynchronous programming with callbacks, promises, and async/await.
+        1. Callbacks: 
+            function fetchData(callback) {
+                setTimeout(() => {
+                    callback("Data received");
+                }, 1000);
+            }
+
+            fetchData((data) => {
+                console.log(data); // "Data received" after 1 second
+            });
+        2. Promises: 
+            function fetchData() {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        resolve("Data received");
+                    }, 1000);
+                });
+            }
+
+            fetchData().then((data) => {
+                console.log(data); // "Data received" after 1 second
+            });
+        3. Async/Await:
+            async function fetchData() {
+                const data = await new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        resolve("Data received");
+                    }, 1000);
+                });
+                console.log(data);
+            }
+
+            fetchData(); // "Data received" after 1 second
+
+
+3. Scope in JavaScript:
+    - Scope in JavaScript refers to the accessibility of variables and functions in different parts of your code. 
+    - Understanding scope is essential for writing effective and bug-free JavaScript code. 
+    - There are three main types of scope in JavaScript:
+
+    a. Global Scope: 
+        - Variables declared outside any function or block are in the global scope. 
+        - They can be accessed from anywhere in the code.
+        EX:
+            let globalVar = "I am global";
+
+            function showGlobalVar() {
+                console.log(globalVar); // Accessible
+            }
+
+            showGlobalVar();
+            console.log(globalVar); // Accessible
+
+    b. Function Scope: 
+        - Variables declared within a function are in the function scope and cannot be accessed outside the function.
+        EX:
+            function greet() {
+                let message = "Hello";
+                console.log(message); // Accessible
+            }
+
+            greet();
+            console.log(message); // Error: message is not defined
+
+    c. Block Scope: 
+        - Variables declared with let or const within a block (e.g., inside curly braces {}) are block-scoped. 
+        - They can only be accessed within that block.
+        EX:
+            if (true) {
+                let blockVar = "I am block scoped";
+                console.log(blockVar); // Accessible
+            }
+
+            console.log(blockVar); // Error: blockVar is not defined
+
+    d. Lexical Scope: 
+        - JavaScript uses lexical (or static) scoping, which means that the scope of a variable is determined 
+            by its location within the source code and nested blocks. 
+        - Inner functions have access to variables and functions in their outer scope.
+        EX:
+            function outer() {
+                let outerVar = "I am outer";
+
+                function inner() {
+                    console.log(outerVar); // Accessible
+                }
+
+                inner();
+            }
+
+            outer();
+
+    e. Closures: 
+        - A closure is a function that has access to its own scope, the scope of the outer function, and the global scope.
+        EX:
+            function makeCounter() {
+                let count = 0;
+                return function() {
+                    count++;
+                    return count;
+                };
+            }
+
+            const counter = makeCounter();
+            console.log(counter()); // 1
+            console.log(counter()); // 2
+
+    f. Hoisting: 
+        - Hoisting is JavaScript's behavior of moving declarations to the top of their containing scope during 
+            the compilation phase. 
+        - Only the declarations are hoisted, not the initializations.
+            1. Variable Hoisting:
+                console.log(hoistedVar); // undefined
+                var hoistedVar = "I am hoisted";
+            2. Function Hoisting:
+                Function declarations are hoisted completely, meaning the entire function is hoisted.
+
+
+4.Closures: 
+    - In JavaScript, a closure is a feature where an inner function has access to the outer (enclosing) function's variables. 
+    - A closure gives you access to an outer function’s scope from an inner function, even after the outer function has 
+        finished executing. 
+    - Closures are created every time a function is created, at function creation time.
+    EX:
+       function outerFunction(outerVariable) {
+            return function innerFunction(innerVariable) {
+                console.log('Outer variable: ' + outerVariable);
+                console.log('Inner variable: ' + innerVariable);
+            };
+        }
+
+        const newFunction = outerFunction('outside');
+        newFunction('inside');
+
+
+5.Event loop:
+    - The event loop is a fundamental concept in JavaScript, crucial for understanding how asynchronous operations are handled. 
+    - JavaScript is single-threaded, meaning it can execute only one operation at a time. 
+    - However, it can manage asynchronous tasks efficiently, thanks to the event loop.
+    - Here’s a breakdown of how the event loop works:
+
+        * Key Components:
+            1. Call Stack: 
+                - This is where your code is executed. 
+                - It operates on a Last In, First Out (LIFO) principle. 
+                - Functions are pushed onto the stack when they're called and popped off when they're completed.
+
+            2. Web APIs: 
+                - These are provided by the browser (or Node.js) and include things like setTimeout, DOM events, 
+                    HTTP requests, etc. 
+                - When an asynchronous operation is called, it’s handed off to these Web APIs.
+
+            3. Callback Queue: 
+                - This is where callbacks from asynchronous operations wait to be executed. 
+                - It operates on a First In, First Out (FIFO) principle.
+
+            4. Event Loop: 
+                - This is the mechanism that checks the call stack and the callback queue. 
+                - If the call stack is empty, the event loop pushes the first callback from the callback queue to the call stack, 
+                    allowing it to be executed.
+
+        * How It Works:
+            1. Synchronous Code Execution:
+                - Functions are executed immediately and are pushed onto the call stack.
+                - Once a function completes, it is popped off the stack.
+
+            2. Asynchronous Code Execution:
+                - When an asynchronous function (like setTimeout) is called, it’s handed off to the Web API.
+                - Once the asynchronous operation is complete, its callback function is pushed onto the callback queue.
+
+            3. Event Loop:
+                - The event loop continuously monitors the call stack and the callback queue.
+                - If the call stack is empty, the event loop pushes the first callback from the callback queue onto the 
+                    call stack, where it gets executed.
+            EX:
+                console.log('Start');
+
+                setTimeout(() => {
+                console.log('Timeout');
+                }, 0);
+
+                console.log('End');
+        
+        * Execution Flow:
+            1. 'Start' is logged immediately because it's a synchronous operation.
+            2. setTimeout is called, and its callback is handed off to the Web API. The Web API starts the timer.
+            3. 'End' is logged immediately after because it's also synchronous.
+            4. Once the timer in setTimeout completes, its callback is pushed to the callback queue.
+            5. The event loop checks the call stack. When it finds the call stack empty, it moves the setTimeout 
+                callback from the callback queue to the call stack.
+            6.'Timeout' is logged.
+
+        * Visualization
+            1. Call Stack:
+                [ log('Start') ]  // After execution: empty
+                [ log('End') ]    // After execution: empty
+                [ callback ]      // From callback queue after setTimeout
+
+            2. Web API:
+                [ setTimeout ]    // Handled by Web API, then moved to callback queue
+
+            3. Callback Queue:
+                [ callback ]      // Moved to call stack when call stack is empty
+
+            4. Event Loop:
+                Continuously checks if the call stack is empty.
+                Moves callbacks from the callback queue to the call stack when the stack is empty.
+    - This mechanism ensures that JavaScript can handle asynchronous tasks without blocking the main thread, 
+        allowing for smooth execution of code and responsive user interfaces.
+
+
+6. Prototype and prototype chain:
+    - In JavaScript, every function and object has a prototype property, which is a key concept in understanding inheritance 
+        and the prototype chain.
+        
+        * Prototype:    
+            - The prototype property is used primarily for inheritance. 
+            - When you create a function in JavaScript, it gets a prototype property, which is an object. 
+            - This prototype object has a special property called constructor that points back to the function itself.
+            EX:
+                function Person(name) {
+                    this.name = name;
+                }
+
+                Person.prototype.sayHello = function() {
+                    console.log('Hello, my name is ' + this.name);
+                };
+
+                const alice = new Person('Alice');
+                alice.sayHello(); // Hello, my name is Alice
+            - In this example:
+                1.Person is a constructor function.
+                2.Person.prototype is an object that has a sayHello method.
+                3.alice is an instance of Person.
+                4.When alice.sayHello() is called, JavaScript looks for sayHello in alice. 
+                    If it's not found, it looks in Person.prototype.
+
+        * Prototype Chain
+            - The prototype chain is a series of linked objects. 
+            - When you try to access a property or method on an object, JavaScript first looks at the object itself. 
+            - If the property or method is not found, it moves up the chain to the object's prototype, and so on, 
+                until it either finds the property/method or reaches the end of the chain (typically Object.prototype).
+            EX:
+                function Animal(type) {
+                    this.type = type;
+                }
+
+                Animal.prototype.makeSound = function() {
+                    console.log('Generic animal sound');
+                };
+
+                function Dog(name) {
+                    Animal.call(this, 'Dog'); // Inherit type from Animal
+                    this.name = name;
+                }
+
+                Dog.prototype = Object.create(Animal.prototype); // Inherit prototype from Animal
+                Dog.prototype.constructor = Dog; // Set constructor back to Dog
+
+                Dog.prototype.bark = function() {
+                    console.log(this.name + ' says Woof!');
+                };
+
+                const fido = new Dog('Fido');
+                fido.makeSound(); // Generic animal sound (from Animal prototype)
+                fido.bark(); // Fido says Woof! (from Dog prototype)
+
+
+7. Classes and Inheritance:
+    - In JavaScript, classes and inheritance are tools that help you create and organize objects. 
+    - A class is like a blueprint for making objects, and inheritance allows one class to use features from another class, 
+        making it easy to reuse and build upon existing code.
+
+    * Classes in JavaScript:
+        - Classes are a blueprint for creating objects. 
+        - They encapsulate data and functions that operate on that data. 
+        - Classes in JavaScript can be defined using the class keyword.
+        EX:
+            class Person {
+                constructor(name, age) {
+                    this.name = name;
+                    this.age = age;
+                }
+
+                // Method
+                greet() {
+                    console.log(`Hello, my name is ${this.name} and I am ${this.age} years old.`);
+                }
+            }
+
+            // Creating an instance of Person
+            const person1 = new Person('Alice', 30);
+            person1.greet(); // Output: Hello, my name is Alice and I am 30 years old.
+
+    * Inheritance in JavaScript:
+        - Inheritance is a mechanism by which one class can inherit properties and methods from another class. 
+        - In JavaScript, this is achieved using the extends keyword.
+        EX:
+            class Person {
+                constructor(name, age) {
+                    this.name = name;
+                    this.age = age;
+                }
+
+                greet() {
+                    console.log(`Hello, my name is ${this.name} and I am ${this.age} years old.`);
+                }
+            }
+
+            // Inheriting from Person
+            class Student extends Person {
+                constructor(name, age, grade) {
+                    super(name, age); // Calls the constructor of the parent class
+                    this.grade = grade;
+                }
+
+                // Method specific to Student
+                study() {
+                    console.log(`${this.name} is studying.`);
+                }
+            }
+
+            const student1 = new Student('Bob', 20, 'A');
+            student1.greet(); // Output: Hello, my name is Bob and I am 20 years old.
+            student1.study(); // Output: Bob is studying.
+
+    * Key Points:
+        - Constructor Method: The constructor method is a special method for creating and 
+            initializing objects created with a class.
+        - Methods: You can define methods within a class.
+        - Inheritance: The extends keyword is used to create a class that is a child of another class.
+        - super Keyword: The super keyword is used to call the constructor of the parent class.
+
+    * Example with Overriding:
+        - A child class can also override methods from the parent class:
+        EX:
+            class Person {
+                constructor(name, age) {
+                    this.name = name;
+                    this.age = age;
+                }
+
+                greet() {
+                    console.log(`Hello, my name is ${this.name} and I am ${this.age} years old.`);
+                }
+            }
+
+            class Student extends Person {
+                constructor(name, age, grade) {
+                    super(name, age);
+                    this.grade = grade;
+                }
+
+                greet() {
+                    console.log(`Hi, I'm ${this.name}, a student with a grade of ${this.grade}.`);
+                }
+            }
+
+            const student2 = new Student('Charlie', 22, 'B');
+            student2.greet(); // Output: Hi, I'm Charlie, a student with a grade of B.
+        - In this example, the greet method in Student overrides the greet method in Person.
+
+    - These features allow for more organized and reusable code, making it easier to manage larger codebases.
+
+
+8. Dom manipulation:
+    - DOM (Document Object Model) manipulation in JavaScript is the process of dynamically changing the content, structure, 
+        and style of a web page. 
+    - Here’s an overview of how you can manipulate the DOM using JavaScript:
+    * Selecting Elements:
+        - You can select DOM elements using various methods provided by the document object.
+        1. By ID: 
+            const element = document.getElementById('myElement');
+        2. By Class Name: 
+            const elements = document.getElementsByClassName('myClass');
+        3. By Tag Name: 
+            const elements = document.getElementsByTagName('div');
+        4. Query Selector: 
+            const element = document.querySelector('.myClass'); // Selects the first element with the class 'myClass'
+            const elements = document.querySelectorAll('.myClass'); // Selects all elements with the class 'myClass'
+
+    * Modifying Element Content:
+        - You can change the content of an element using properties like innerHTML, innerText, or textContent.
+        EX:
+            const element = document.getElementById('myElement');
+            element.innerHTML = '<p>New content</p>'; // Inserts HTML content
+            element.innerText = 'New text content'; // Inserts plain text
+            element.textContent = 'New text content'; // Similar to innerText but includes spacing and text from hidden elements
+
+    * Modifying Element Attributes:
+        - You can get, set, or remove attributes from elements.
+        EX:
+            const element = document.getElementById('myElement');
+            element.setAttribute('src', 'image.jpg'); // Sets an attribute
+            const src = element.getAttribute('src'); // Gets an attribute
+            element.removeAttribute('src'); // Removes an attribute
+
+    * Modifying Element Style:
+        - You can change the style of elements directly or by adding/removing CSS classes.
+        EX:
+            const element = document.getElementById('myElement');
+            element.style.color = 'red'; // Directly setting a style
+
+            // Adding/Removing CSS classes
+            element.classList.add('newClass'); // Adds a class
+            element.classList.remove('oldClass'); // Removes a class
+            element.classList.toggle('activeClass'); // Toggles a class
+
+    * Creating and Removing Elements:
+        - You can create new elements and append them to the DOM or remove existing elements.
+        EX:
+            // Creating a new element
+            const newElement = document.createElement('div');
+            newElement.innerText = 'Hello, world!';
+            document.body.appendChild(newElement); // Appends the new element to the body
+
+            // Removing an element
+            const elementToRemove = document.getElementById('myElement');
+            elementToRemove.parentNode.removeChild(elementToRemove); // Removes the element from its parent
+
+    * Event Handling:
+        - You can add event listeners to elements to handle user interactions.
+        EX:
+            const button = document.getElementById('myButton');
+            button.addEventListener('click', () => {
+            alert('Button clicked!');
+            });
+
+            // Removing an event listener
+            const handleClick = () => {
+            alert('Button clicked!');
+            };
+            button.removeEventListener('click', handleClick);
+
+
+9. call/apply/bind:
+    - In JavaScript, call, apply, and bind are methods that allow you to control the context (this value) in which a function 
+        is executed. 
+    - These methods are useful for function borrowing and method chaining. Here’s an overview of each:
+    
+    * call:
+        - The call method calls a function with a given this value and arguments provided individually.
+        Ex:
+            const person = {
+                firstName: 'John',
+                lastName: 'Doe',
+                fullName: function() {
+                    return this.firstName + ' ' + this.lastName;
+                }
+            };
+
+            const anotherPerson = {
+                firstName: 'Jane',
+                lastName: 'Smith'
+            };
+
+            // Using call to invoke fullName with anotherPerson as this
+            console.log(person.fullName.call(anotherPerson)); // Output: Jane Smith
+
+    * apply: 
+        - The apply method is similar to call, but it takes arguments as an array (or array-like object).
+        EX:
+            function greet(greeting, punctuation) {
+                console.log(greeting + ', ' + this.firstName + ' ' + this.lastName + punctuation);
+            }
+
+            const person = {
+                firstName: 'John',
+                lastName: 'Doe'
+            };
+
+            // Using apply to invoke greet with person as this
+            greet.apply(person, ['Hello', '!']); // Output: Hello, John Doe!
+
+    * bind:
+        - The bind method creates a new function that, when called, has its this keyword set to the provided value, 
+            with a given sequence of arguments preceding any provided when the new function is called.
+        EX:
+            const person = {
+                firstName: 'John',
+                lastName: 'Doe',
+                fullName: function() {
+                    return this.firstName + ' ' + this.lastName;
+                }
+            };
+
+            const anotherPerson = {
+                firstName: 'Jane',
+                lastName: 'Smith'
+            };
+
+            // Using bind to create a new function with anotherPerson as this
+            const fullNameOfAnotherPerson = person.fullName.bind(anotherPerson);
+            console.log(fullNameOfAnotherPerson()); // Output: Jane Smith
+
+            // Example with additional arguments
+            function greet(greeting, punctuation) {
+                console.log(greeting + ', ' + this.firstName + ' ' + this.lastName + punctuation);
+            }
+
+            const boundGreet = greet.bind(person, 'Hello');
+            boundGreet('!'); // Output: Hello, John Doe!
+
+    ** Key Differences:
+        call: Immediately invokes the function with a specified this context and individual arguments.
+        apply: Immediately invokes the function with a specified this context and arguments as an array.
+        bind: Returns a new function with a specified this context and optionally prepends arguments, without invoking the 
+            function immediately.
+    
+    ** Practical Use Cases:
+        1. Function Borrowing: 
+            - You can borrow methods from one object and use them on another.
+            EX:
+                const person1 = {
+                    name: 'Alice',
+                    introduce: function() {
+                        console.log(`Hi, my name is ${this.name}.`);
+                    }
+                };
+
+                const person2 = {
+                    name: 'Bob'
+                };
+
+                // Borrowing introduce method from person1
+                person1.introduce.call(person2); // Output: Hi, my name is Bob.
+        
+        2. Partial Application: 
+            - Using bind to create a function with some arguments preset.
+            EX:
+                function multiply(a, b) {
+                    return a * b;
+                }
+
+                const double = multiply.bind(null, 2);
+                console.log(double(5)); // Output: 10
+
+        3. Event Handling: 
+            - Ensuring the correct this context in event handlers.
+            Ex:
+                const button = document.getElementById('myButton');
+                const person = {
+                    name: 'Charlie',
+                    handleClick: function() {
+                        console.log(`Button clicked by ${this.name}`);
+                    }
+                };
+
+                // Binding handleClick to person
+                button.addEventListener('click', person.handleClick.bind(person));
+
+    - These methods provide powerful ways to manage function context and arguments, making your code more flexible and reusable.
+
+
+10. Promises:
+    - Promise is an object representing the eventual completion (or failure) of an asynchronous operation and its resulting value. 
+    - Promises are used to handle asynchronous operations more efficiently, avoiding the "callback hell" that often occurs when 
+        multiple nested callbacks are used.
+
+    * Key Concepts of Promises
+        1. States of a Promise: 
+            Pending: The initial state. The operation is ongoing, and the promise is neither fulfilled nor rejected.
+            Fulfilled: The operation completed successfully, and the promise has a resolved value.
+            Rejected: The operation failed, and the promise has a reason for the failure (error).
+
+        2. Creating a Promise:
+            let promise = new Promise((resolve, reject) => {
+                // Perform an async operation, then call resolve(value) if it succeeds
+                // or reject(error) if it fails
+                let success = true; // For example purposes
+                if (success) {
+                    resolve("Operation succeeded");
+                } else {
+                    reject("Operation failed");
+                }
+            });
+        
+        3. Using Promises:
+        
+
+

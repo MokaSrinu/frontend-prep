@@ -1,0 +1,49 @@
+### Typescript Roadmap:
+
+part-1:
+    1.tsconfig
+    2.Typed parameters
+    3.Strict config (no 'any')
+    4.ESLint
+    5.Primitive types
+    6.Union types
+    7.Type Narrowing
+    8.Type Alias
+    9.Array type literal
+    10.Tuples
+
+part-2:
+    11.Literal types
+    12.Function return type
+    13.Optional parameters
+    14.void
+    15.Callbacks
+    16.Modules
+    17.Objects
+    18.Interfaces
+    19.OOP
+    20.Structural type system
+
+part-3:
+    21.Substitutability
+    22.Classes
+    23.Inheritance
+    24.Polymorphism
+    25.unknown
+    26.Function overload
+    27.Generics
+    28.Utility Types
+    29.Records
+    30.Discriminated unions
+
+part-4:
+    31.Immutability
+    32.Promises + Fetch
+    33.Intersection types
+    34.DOM interfaces
+    35.DOM selection
+    36.DOM operations
+    37.DOM Events
+    38.Enums
+    39.Ambient Modules
+    40.Migrating to TypeScript

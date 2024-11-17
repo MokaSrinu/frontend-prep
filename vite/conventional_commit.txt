@@ -1,0 +1,32 @@
+# Commitlint and husky 9 setup:
+https://medium.com/@abpeter14/how-to-install-commitlint-husky-2024-f1157f14006f
+
+
+
+# Commitizen and husky [need to figure it out for commitizen]
+
+1. Install Packages:
+  yarn add --dev commitizen commitlint @commitlint/cli @commitlint/config-conventional cz-conventional-changelog husky
+
+2. Create .husky Directory:
+  mkdir .husky
+
+3. Add Commit Message Hook:
+  npx husky add .husky/commit-msg 'yarn commitlint --edit "$1"'
+
+4. Update package.json Scripts:
+  "scripts": {
+    "prepare": "husky install",
+    "commit": "cz"
+  }
+
+5. Create .czrc File:
+  {
+    "path": "cz-conventional-changelog"
+  }
+
+6. Create commitlint.config.js File:
+  module.exports = {
+    extends: ['@commitlint/config-conventional'],
+  };
+

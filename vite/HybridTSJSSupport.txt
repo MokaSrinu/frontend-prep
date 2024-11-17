@@ -1,0 +1,66 @@
+Links:
+1. Typescript configuration in vite: https://github.com/vitejs/vite/discussions/6799
+2.
+
+
+# React project setup with vite which supports JavaScript & TypeScript[Hybrid].
+
+1. Install the typescript dependencies:
+    yarn add react react-dom react-router-dom
+    yarn add --dev typescript @types/react @types/react-dom @types/react-router-dom
+
+2. Update Vite Configuration:
+    - The Vite configuration is usually set up to handle both TypeScript and JavaScript files out of the box. 
+    - However, you can ensure proper configuration by updating vite.config.ts if necessary.
+    EX:
+        // vite.config.ts
+        import { defineConfig } from 'vite';
+        import react from '@vitejs/plugin-react';
+
+        export default defineConfig({
+            plugins: [react()],
+            resolve: {
+                extensions: ['.js', '.jsx', '.ts', '.tsx'],
+            },
+        });
+
+3. Configure TypeScript:
+    - Ensure that TypeScript is properly set up to handle both .ts and .tsx files.
+    * ts.config.json:
+        {
+            "compilerOptions": {
+                "target": "ESNext",
+                "useDefineForClassFields": true,
+                "lib": ["DOM", "DOM.Iterable", "ESNext"],
+                "allowJs": true, // To Allow Js files
+                "skipLibCheck": true,
+                "esModuleInterop": false,
+                "allowSyntheticDefaultImports": true,
+                "strict": true,
+                "forceConsistentCasingInFileNames": true,
+                "module": "ESNext",
+                "moduleResolution": "Node",
+                "resolveJsonModule": true,
+                "isolatedModules": true,
+                "noEmit": true,
+                "jsx": "react-jsx"
+            },
+            "include": ["src"],
+            "references": [{ "path": "./tsconfig.node.json" }]
+        }
+    * tsconfig.node.json:
+        {
+            "compilerOptions": {
+                "composite": true,
+                "module": "ESNext",
+                "moduleResolution": "Node",
+                "allowSyntheticDefaultImports": true,
+                "strict": true // Optionally add strict mode for consistency
+            },
+            "include": ["vite.config.ts"], // Ensure this path is correct
+            "exclude": ["node_modules"] // Exclude node_modules as a best practice
+        }
+
+4. Change file name vite.config.js to vite.config.ts.
+
+

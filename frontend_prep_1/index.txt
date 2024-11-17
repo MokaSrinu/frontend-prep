@@ -1,0 +1,12 @@
+1. React Js with Typescript 🤩 (for building the core)
+2. Scss (modules) or Tailwind Css.🎨 (for styling)
+3. React context api or Redux. 📈 (for state management)
+4. Vite ⚡(for a faster development experience)
+5. React Query with Axios 📊 ( for handling the APIs)
+6. Postman or Thunder Client 📞 ( for api testing) 
+7. Material UI or Shadcn or RadixUI (optional)🎉 (for UI components). 
+8. ESLint 📊 (for code linting and formatting)
+9. React Router 🗺️ (for client side routing)
+10. Prettier 🎨 (for code formatting and styling) 
+
+This tech stack is ready for building a fast, efficient and scalable Web App in 2024 🚀

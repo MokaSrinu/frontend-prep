@@ -1,0 +1,36 @@
+### Interview Questions:
+
+1. Difference between `==` and `===` operators
+2. Difference between `var`, `let`, and `const` keywords
+3. Explain Implicit Type Coercion in JS
+4. Difference between `undefined` and `not defined`
+5. What is Hoisting and are `let` variables hoisted?
+6. What is a Template Literal?
+7. What is the Spread and Rest Operator?
+8. What is DOM and BOM?
+9. Explain Map, Filter, and Reduce methods
+10. What is the Event Loop?
+11. What is Closure, Lexical Environment, and Execution Context?
+12. What is:
+    i. First Class Function
+    ii. Immediately Invoked Function
+    iii. Higher Order Function
+    iv. Callback Function
+    v. Function Expression
+13. Different ways to handle async operations:
+    i. Callback
+    ii. Promises
+    iii. Async Await
+14. Difference between Callback, Promises, and Async Await
+15. Explain the behavior of the 'this' keyword
+16. Truthy and Falsy Value
+17. Difference between Normal and Arrow Functions
+18. What is Currying?
+19. What is Shadowing?
+20. Explicit Object Binding - `call`, `apply`, `bind`
+21. Promise Combinators - `all`, `race`, `allSettled`, `any`
+22. Event Propagation - Bubbling & Capturing
+23. Event Delegation
+24. What is Debouncing and Throttling?
+25. What are Object Prototypes?
+26. What is Critical Rendering Path?

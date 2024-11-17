@@ -1,0 +1,13 @@
+### Tools:
+
+1.getpixelsnap.com -- fastest tool for measuring anything on screen.
+2.codetogo.io -- find up to date code snippets for javascript, typescript, react.
+3.webgradients.com -- Free collection of 180 linear gradiants with css3 code.
+4.spline.design -- Free 3d design software to create web interactive experiences.
+5.shapedivider.app -- Export beautiful svg hape dividers for your projects.
+6.getwaves.io -- custom wave animation effects for your website.
+7.animista.net -- play with a collection of ready-made css animation.
+8.fonts.google.com -- various free fonts.
+9.landingpage.fyi -- contains more than 100 tools.
+
+

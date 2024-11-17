@@ -1,0 +1,112 @@
+### Installation of Svelte:
+
+    # Optionally, install degit globally if you don't have it
+    npm install -g degit
+
+    # Create a new Svelte project using the Svelte template
+    npx degit sveltejs/template my-svelte-app
+
+    # Navigate to the project directory
+    cd my-svelte-app
+
+    # Install project dependencies
+    yarn install
+
+    # Start the development server
+    yarn dev
+
+1.Basic Svelte
+    a.Introduction
+        * What is Svelte?
+        * Styling
+        * HTML Tags
+    b.Reactivity
+        * Assignments
+        * Declarations
+        * Statements
+        * Updating Arrays & Objects
+    c.Props
+        * Declaring Props
+        * Default values
+        * Spreading props
+    d.Logic
+        * If blocks
+        * Else blocks
+        * Else-if blocks
+        * Each blocks
+        * Keyed Each block
+        * Await blocks
+    e.Events
+        * Dom Events
+        * Inline handlers
+        * Event Modifiers
+        * Component Events
+        * Event Forwarding
+        * Dom Event Forwarding
+    f.Bindings
+        * Text Inputs
+        * Numeric Inputs
+        * Check box Inputs
+    g.Lifecycle
+        * onMount
+        * Before Update & After Update
+        * Tick
+    h.Store
+        * Writeable Store
+        * Auto-Subscriptions
+        * Readable Stores
+        * Derived Stores
+        * Custom Stores
+        * Store Bindings
+
+
+### Installation of SvelteKit
+
+    # Create a new SvelteKit project
+    yarn create svelte my-svelte-app
+
+    # Navigate to the project directory
+    cd my-svelte-app
+
+    # Install project dependencies
+    yarn install
+
+    # Start the development server
+    yarn dev
+
+
+2.Basic SvelteKit:
+    a.Introduction
+        * What is svelteKit?
+    b.Routing
+        * Pages
+        * Layouts
+        * Route Parameters
+    c.Loading data
+        * Page data
+        * Layout data
+    d.Headers and cookies
+        * Setting Headers
+        * Reading & writing Cookies
+    e.Shared modules
+        * The $lib alias
+    f.Forms
+        * The <form> element
+        * Named Form Actions
+        * Form validations
+        * Progressive Enhancement
+        * Customizing use:enhance
+    g.API Routes
+        * GET
+        * POST
+        * Others
+    h.Stores
+        * Page
+        * navigation
+        * updated
+    i.Errors and redirects 
+        * Expected errors
+        * Unexpected errors.
+
+
+
