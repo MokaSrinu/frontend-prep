@@ -1,0 +1,54 @@
+# Python Roadmap:
+
+1.Python Variables and Constants
+2.Python Classes and Objects
+3.Python Array Implementation
+4.Python File Methods
+5.Python Keywords and Identifiers
+6.Python Tuples
+7.Python Sets
+8.Python Different Modules
+9.Python Directory and File Management System
+10.Python Dictionary
+
+11.Python Strings
+12.Python Data Type Conversion
+13.Python Numbers
+14.Python Namespace and Scope
+15.Python Global, Local and NoN-Local variables
+16.Python Global Keyword
+17.Python Iterators
+18.Python Iterators using "for"
+19.Python Inheritance
+20.Python Multiple Inheritance
+
+21.Python Function Arguments
+22.Python Functions
+23.Python Break Statement
+24.Python Continue Statement
+25.Python Errors and Exceptions
+26.Python Exceptions Try.except and finally
+27.Python User Defined Exception
+28.Python OOP Approach
+29.Python Nested Dictionary Implementation
+30.Python Operator Overloading
+
+31.Python Statements and Comments
+32.Python Pass Statement
+33.Python Generators
+34.Python Decorators
+35.Python While Loop
+36.Use of if .elif and else
+37.Python Matrix Implementation
+38.Python Regular Expressions
+39.Python List Comprehension
+40.Python Recursion
+
+41.Python Input, Output and Import
+42.Python Read and Write Operations
+43.Python Different Lopping Techniques
+44.Python Shallow Copy and Deep Copy
+45.Python Lamda Functions
+46.Python ASSERT
+47.Python @property
+48.Python Closure
