@@ -106,4 +106,13 @@ print('Exponent representation : {0:e}'.format(1566.345))
 print('One third is: {0:3f}'.format(1/3))
 
 # string methods
+print('gOOD moRNING tO alL'.lower())
+print('gOOD moRNING tO alL'.upper())
+print('gOOD moRNING tO alL'.find('tO'))
+print('gOOD moRNING tO alL'.find('to'))
+print('gOOD moRNING tO alL'.replace('alL', 'everybody'))
+print('gOOD moRNING tO alL'.replace('all', 'everybody'))
+
+
+
 
