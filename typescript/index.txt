@@ -2,6 +2,7 @@
 
 React + Typescript quick reference: https://dev.to/truongpx396/typescript-with-reactjs-all-in-one-1oed
 
+Advanced typescript: https://angularexperts.io/blog/advanced-typescript?ref=dailydev
 
 part-1:
     1.tsconfig
