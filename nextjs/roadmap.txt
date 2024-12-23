@@ -1,0 +1,1 @@
+# Advanced Nextjs caching techniques: https://blog.logrocket.com/advanced-next-js-caching-strategies/?ref=dailydev
