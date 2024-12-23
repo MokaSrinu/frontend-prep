@@ -1,3 +1,6 @@
+### Vite vs webpack: https://www.syncfusion.com/blogs/post/webpack-vs-vite-bundler-comparison?ref=dailydev
+
+
 1. Why vite?
     - When cold-starting the dev server, a bundler-based build setup has to eagerly crawl and build your entire application 
         before it can be served.
