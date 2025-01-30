@@ -1,1 +1,3 @@
 react 19 features cheatsheet: https://www.epicreact.dev/react-19-cheatsheet?ref=dailydev
+
+React 19 Blog with examples: https://blog.logrocket.com/how-react-19-can-help-you-make-faster-websites/?ref=dailydev
