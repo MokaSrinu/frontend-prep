@@ -1,0 +1,19 @@
+
+## Concepts:
+
+1. Installing MySql and setting up database 
+2. Select Statement 
+3. Where clause
+4. Group By, Order By
+5. Having VS Where
+6. Limit and Aliasing
+7. Joins (Inner Join, Outer Join [left, right], Self join)
+8. unions
+9. String functions
+10. Case Statements
+11. SubQueries
+12. Window functions
+13. CTE's 
+14. Temp tables
+15. Stored Procedures
+16. Triggers and Events
