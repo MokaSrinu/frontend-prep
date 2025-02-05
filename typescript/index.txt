@@ -1,5 +1,8 @@
 ### Typescript Roadmap:
 
+clear typescript blog: https://zerotomastery.io/cheatsheets/typescript-cheat-sheet/?ref=dailydev
+
+
 React + Typescript quick reference: https://dev.to/truongpx396/typescript-with-reactjs-all-in-one-1oed
 
 Advanced typescript: https://angularexperts.io/blog/advanced-typescript?ref=dailydev
