@@ -1,0 +1,1 @@
+Vue clear explaination: https://fadamakis.com/vue-is-too-easy-3d4ecca5e454

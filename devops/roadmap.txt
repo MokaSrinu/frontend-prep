@@ -1,1 +1,3 @@
 ## CICD pipeline blog : https://newsletter.techworld-with-milan.com/p/what-is-cicd-pipeline?ref=dailydev
+
+## Master CICD : https://www.docker.com/blog/docker-and-jenkins-build-robust-ci-cd-pipelines/?ref=dailydev

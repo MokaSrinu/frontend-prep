@@ -15,6 +15,7 @@
 
 ### Awesome React: https://github.com/enaqx/awesome-react?ref=dailydev
 
+### Data visulization tools: https://dev.to/web_dev-usman/20-must-know-javascript-libraries-for-data-visualization-508d?ref=dailydev
 
 
 

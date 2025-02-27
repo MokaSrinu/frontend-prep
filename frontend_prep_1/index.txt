@@ -10,3 +10,8 @@
 10. Prettier 🎨 (for code formatting and styling) 
 
 This tech stack is ready for building a fast, efficient and scalable Web App in 2024 🚀
+
+*** Frontend Architecture patterns: https://blog.logrocket.com/guide-modern-frontend-architecture-patterns/?ref=dailydev
+
+*** 37 Tips from Senior frontend dev: https://dev.to/_ndeyefatoudiop/37-tips-from-a-senior-frontend-developer-251b?ref=dailydev
+
