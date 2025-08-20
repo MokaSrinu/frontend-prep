@@ -1,7 +1,0 @@
-# Agenda for the session 1.
-
-1.What is svelte? features and Advantages of svelte.
-2.Comparision of Svelte and React. 
-3.How to work with svelte and syntaxes.
-4.React19 and nextjs15
-5.Console Insights of gemini AI in chrome developer tools.

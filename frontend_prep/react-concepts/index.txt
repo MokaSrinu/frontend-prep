@@ -101,3 +101,6 @@
 43. What is the role of Jest in React testing? 
 44. What is the difference between shallow rendering and full rendering in testing? 
 45. How does one implement lazy loading in React?
+
+
+https://github.com/sudheerj/reactjs-interview-questions

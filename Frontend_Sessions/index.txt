@@ -1,9 +1,0 @@
-
-
-* Session-1: what is svelte? svelte vs react.
-
-
-
-
-
-

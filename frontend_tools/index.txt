@@ -18,4 +18,5 @@
 ### Data visulization tools: https://dev.to/web_dev-usman/20-must-know-javascript-libraries-for-data-visualization-508d?ref=dailydev
 
 
-
+### 20 github repos for 2025: https://aidevdaily.com/20-github-repositories-every-developer-should-know/?ref=dailydev
+ 

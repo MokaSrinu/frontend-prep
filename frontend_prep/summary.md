@@ -72,3 +72,7 @@
 17. Mocking data
 18. Webpack (bundler)
 19. Babel, environment setup, prettier, linter
+
+https://github.com/h5bp/Front-end-Developer-Interview-Questions/blob/main/src/questions/css-questions.md
+
+cheatSheets: https://quickref.me/javascript?ref=dailydev
