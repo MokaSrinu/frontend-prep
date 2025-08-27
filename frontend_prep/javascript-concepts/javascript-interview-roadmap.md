@@ -275,22 +275,41 @@ class EventEmitter {
 
 ## 5. Data Structures & Algorithms in JS
 
+> **📖 For detailed explanations with comprehensive examples, see: [Data Structures & Algorithms - Detailed Guide](./data-structures-algorithms.md)**
+
+### 🎯 Quick Reference - Key Topics
+
 ### 📊 Basic Data Structures
-- **Arrays & Array Methods**
-- **Objects & Hash Maps**
-- **Sets & Maps**
-- **Stacks & Queues**
+- **Arrays & Array Methods** - Custom implementations, utilities, problem-solving patterns
+- **Objects & Hash Maps** - Hash function design, collision handling, object utilities
+- **Sets & Maps** - Set operations, LRU cache, frequency counting
+- **Stacks & Queues** - LIFO/FIFO operations, priority queues, deques
 
 ```javascript
-// Stack implementation
+// Stack implementation with min operation
 class Stack {
     constructor() {
         this.items = [];
+        this.minStack = [];
     }
     
-    push(item) { this.items.push(item); }
-    pop() { return this.items.pop(); }
+    push(item) { 
+        this.items.push(item); 
+        if (this.minStack.length === 0 || item <= this.getMin()) {
+            this.minStack.push(item);
+        }
+    }
+    
+    pop() { 
+        const item = this.items.pop();
+        if (item === this.getMin()) {
+            this.minStack.pop();
+        }
+        return item;
+    }
+    
     peek() { return this.items[this.items.length - 1]; }
+    getMin() { return this.minStack[this.minStack.length - 1]; }
     isEmpty() { return this.items.length === 0; }
 }
 ```
