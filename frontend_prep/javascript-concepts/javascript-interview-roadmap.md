@@ -20,177 +20,147 @@
 
 ## 1. Core JavaScript Foundations
 
-### 🎯 Variables & Scope
-- **`var` vs `let` vs `const`**
-  - Function scope vs Block scope
-  - Hoisting behavior differences
-  - Temporal Dead Zone (TDZ)
-  
-```javascript
-// Example: TDZ
-console.log(x); // undefined (hoisted)
-console.log(y); // ReferenceError: Cannot access 'y' before initialization
-var x = 1;
-let y = 2;
-```
+> **📖 For detailed explanations with comprehensive examples, see: [Core JavaScript Foundations - Detailed Guide](./core-javascript-foundations.md)**
 
-### 🎯 Data Types
+### 🎯 Quick Reference - Key Topics
+
+#### Variables & Scope
+- **`var` vs `let` vs `const`** - Function vs Block scope, Hoisting, TDZ
+- **Scope Chain** - Global, Function, Block scopes
+- **Temporal Dead Zone** - `let`/`const` behavior before declaration
+
+#### Data Types  
 - **Primitive Types**: `Number`, `String`, `Boolean`, `Undefined`, `Null`, `Symbol`, `BigInt`
 - **Non-Primitive Types**: `Object`, `Array`, `Function`
-- **Type Coercion**: `==` vs `===`
-- **`typeof` operator quirks**
+- **Type Coercion**: `==` vs `===`, Implicit/Explicit conversion
+- **typeof Operator**: Edge cases and quirks
+
+#### Functions
+- **Declaration vs Expression** - Hoisting differences
+- **Arrow Functions** - Lexical `this`, limitations
+- **IIFE** - Immediate execution, module pattern
+- **Higher-Order Functions** - Functions as first-class citizens
+- **Function Context** - `call`, `apply`, `bind`
+
+#### Execution Context & Hoisting
+- **Call Stack** - Execution order and context creation
+- **Creation vs Execution Phase** - Variable/function hoisting
+- **Scope Chain Resolution** - Variable lookup mechanism
+
+#### Closures
+- **Lexical Scoping** - Inner function access to outer variables
+- **Memory Retention** - Variable persistence after execution
+- **Private Variables** - Encapsulation using closures
+- **Module Pattern** - Code organization and privacy
+
+#### Objects & Prototypes
+- **Object Creation** - Literal, Constructor, `Object.create()`, Factory
+- **Prototype Chain** - Inheritance mechanism
+- **`__proto__` vs `prototype`** - Instance vs constructor properties  
+- **Object Methods** - `freeze()`, `seal()`, `assign()`, property descriptors
 
 ```javascript
-// Tricky examples
-typeof null;           // "object" (historical bug)
-typeof NaN;            // "number"
-typeof undefined;      // "undefined"
-[] + {};              // "[object Object]"
-{} + [];              // 0 (in some contexts)
-```
-
-### 🎯 Functions
-- **Function Declarations vs Expressions**
-- **Arrow Functions** (lexical `this`)
-- **IIFE** (Immediately Invoked Function Expression)
-- **Higher-Order Functions**
-- **Callback Functions**
-- **First-Class Functions**
-
-```javascript
-// Function types comparison
-function declaration() { return "hoisted"; }
-
-const expression = function() { return "not hoisted"; };
-
-const arrow = () => "lexical this";
-
-// IIFE
-(function() { console.log("Immediately invoked"); })();
-```
-
-### 🎯 Execution Context & Hoisting
-- **Call Stack**
-- **Global vs Function vs Block Execution Context**
-- **Variable and Function Hoisting**
-- **Creation vs Execution Phase**
-
-### 🎯 Closures
-- **Lexical Scoping**
-- **Memory Retention**
-- **Private Variables**
-- **Module Pattern**
-
-```javascript
-// Closure example
-function createCounter() {
-    let count = 0;
-    return function() {
-        return ++count;
+// Quick example demonstrating multiple concepts
+function createCounter(initialValue = 0) {
+    let count = initialValue; // Closure variable
+    
+    return {
+        increment: () => ++count, // Arrow function with lexical scope
+        decrement: () => --count,
+        get value() { return count; }, // Getter
+        reset() { count = initialValue; } // Method shorthand
     };
 }
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
+
+const counter = createCounter(5);
+console.log(counter.increment()); // 6
+console.log(counter.value); // 6
 ```
 
-### 🎯 Objects & Prototypes
-- **Object Creation Patterns**
-- **Prototype Chain**
-- **`__proto__` vs `prototype`**
-- **Object Methods**: `Object.create()`, `Object.assign()`, `Object.freeze()`
-- **Property Descriptors**
+**🔗 [→ Go to Detailed Core Foundations Guide](./core-javascript-foundations.md)**
 
 ---
 
 ## 2. Advanced JavaScript Concepts
 
-### 🔥 Event Loop & Concurrency
-- **Call Stack**
-- **Web APIs / Node.js APIs**
-- **Callback Queue (Task Queue)**
-- **Microtask Queue (Promise Queue)**
-- **Event Loop Phases**
+> **📖 For detailed explanations with comprehensive examples, see: [Advanced JavaScript Concepts - Detailed Guide](./advanced-javascript-concepts.md)**
+
+### 🎯 Quick Reference - Key Topics
+
+#### Event Loop & Concurrency
+- **Call Stack** - LIFO execution tracking
+- **Web APIs / Node.js APIs** - Asynchronous operation handlers
+- **Task Queue (Macrotasks)** - setTimeout, setInterval, DOM events
+- **Microtask Queue** - Promise.then, queueMicrotask, async/await
+- **Event Loop Phases** - Stack → Microtasks → Macrotask → Repeat
+
+#### Asynchronous Programming
+- **Callbacks & Callback Hell** - Nested callback problems
+- **Promises** - then, catch, finally methods
+- **async/await** - Syntactic sugar over Promises
+- **Promise Combinators** - all(), race(), allSettled(), any()
+- **Error Handling** - Try-catch patterns in async code
+
+#### Advanced Function Concepts
+- **this Binding Rules** - Default, implicit, explicit, arrow function binding
+- **Currying** - Transform multi-argument functions to single-argument sequences
+- **Partial Application** - Fix some arguments, return function for remaining
+- **Function Composition** - Combine functions for data transformation pipelines
+
+#### Modules & Code Organization
+- **CommonJS vs ES Modules** - require/exports vs import/export
+- **Import/Export Syntax** - Named, default, namespace imports
+- **Dynamic Imports** - Runtime module loading with import()
+- **Tree Shaking** - Dead code elimination for smaller bundles
+
+#### Generators & Iterators
+- **Generator Functions** - function* syntax with yield keyword
+- **Iterator Protocol** - Symbol.iterator implementation
+- **Custom Iterables** - Make objects work with for...of loops
+- **Async Iterators** - for await...of patterns
+
+#### Functional Programming
+- **Pure Functions** - No side effects, predictable output
+- **Immutability** - Data structures that don't change
+- **Array Methods** - map, filter, reduce, functional composition
+- **Higher-Order Functions** - Functions that operate on other functions
 
 ```javascript
-// Event loop example
-console.log("1");
-setTimeout(() => console.log("2"), 0);
-Promise.resolve().then(() => console.log("3"));
-console.log("4");
+// Quick example demonstrating multiple advanced concepts
+async function* advancedExample() {
+    // Generator with async operations
+    const urls = ['api/users', 'api/posts', 'api/comments'];
+    
+    for (const url of urls) {
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            yield data; // Yield each result as it's ready
+        } catch (error) {
+            yield { error: error.message };
+        }
+    }
+}
+
+// Function composition with currying
+const pipe = (...fns) => value => fns.reduce((acc, fn) => fn(acc), value);
+const curry = fn => (...args) => args.length >= fn.length ? fn(...args) : (...newArgs) => curry(fn)(...args, ...newArgs);
+
+const processData = pipe(
+    data => data.filter(item => item.active),
+    data => data.map(item => ({ ...item, processed: true })),
+    data => data.sort((a, b) => a.priority - b.priority)
+);
+
+// Event loop demonstration
+console.log("1"); // Synchronous
+setTimeout(() => console.log("2"), 0); // Macrotask
+Promise.resolve().then(() => console.log("3")); // Microtask
+console.log("4"); // Synchronous
 // Output: 1, 4, 3, 2
 ```
 
-### 🔥 Asynchronous Programming
-- **Callbacks & Callback Hell**
-- **Promises** (`then`, `catch`, `finally`)
-- **`async/await`**
-- **Promise Combinators**: `Promise.all()`, `Promise.race()`, `Promise.allSettled()`, `Promise.any()`
-- **Error Handling in Async Code**
-
-```javascript
-// Promise combinators
-const p1 = Promise.resolve(1);
-const p2 = Promise.reject(2);
-const p3 = Promise.resolve(3);
-
-Promise.allSettled([p1, p2, p3])
-    .then(results => console.log(results));
-// Returns status of all promises
-```
-
-### 🔥 Advanced Function Concepts
-- **`this` Binding Rules**
-  - Default binding
-  - Implicit binding
-  - Explicit binding (`call`, `apply`, `bind`)
-  - Arrow function binding
-- **Currying**
-- **Partial Application**
-- **Function Composition**
-
-```javascript
-// This binding example
-const obj = {
-    name: "Alice",
-    greet: function() { console.log(`Hello, ${this.name}`); },
-    arrowGreet: () => console.log(`Hello, ${this.name}`)
-};
-
-obj.greet();      // "Hello, Alice"
-obj.arrowGreet(); // "Hello, undefined"
-```
-
-### 🔥 Modules & Code Organization
-- **CommonJS vs ES Modules**
-- **Import/Export Syntax**
-- **Dynamic Imports**
-- **Tree Shaking**
-- **Module Bundlers Understanding**
-
-### 🔥 Generators & Iterators
-- **Generator Functions**
-- **`yield` keyword**
-- **Iterator Protocol**
-- **Custom Iterables**
-
-```javascript
-// Generator example
-function* fibonacci() {
-    let a = 0, b = 1;
-    while (true) {
-        yield a;
-        [a, b] = [b, a + b];
-    }
-}
-```
-
-### 🔥 Functional Programming
-- **Pure Functions**
-- **Immutability**
-- **Array Methods**: `map`, `filter`, `reduce`, `forEach`
-- **Function Composition**
-- **Avoiding Side Effects**
+**🔗 [→ Go to Detailed Advanced Concepts Guide](./advanced-javascript-concepts.md)**
 
 ---
 
