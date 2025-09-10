@@ -1,3 +1,31 @@
-react 19 features cheatsheet: https://www.epicreact.dev/react-19-cheatsheet?ref=dailydev
+## 🚀 React Interview Preparation Resources
 
-React 19 Blog with examples: https://blog.logrocket.com/how-react-19-can-help-you-make-faster-websites/?ref=dailydev
+### 📚 Main Study Guide
+- **[React Interview Mastery Guide](./react-interview-mastery-guide.md)** - Complete 30-day preparation strategy from basics to advanced system design
+
+### 📖 Additional Learning Resources
+
+**React 19 Features:**
+- React 19 Features Cheatsheet: https://www.epicreact.dev/react-19-cheatsheet?ref=dailydev
+- React 19 Blog with Examples: https://blog.logrocket.com/how-react-19-can-help-you-make-faster-websites/?ref=dailydev
+
+**Essential Documentation:**
+- [React Official Docs](https://react.dev/)
+- [React Hooks Guide](https://react.dev/reference/react)
+- [React Router v6](https://reactrouter.com/)
+- [TanStack Query](https://tanstack.com/query/latest)
+
+**Testing Resources:**
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+- [Jest Documentation](https://jestjs.io/docs/getting-started)
+
+**Performance & Advanced Topics:**
+- [React DevTools Profiler](https://react.dev/learn/react-developer-tools)
+- [React Concurrent Features](https://react.dev/blog/2022/03/29/react-v18)
+- [React Server Components](https://react.dev/blog/2023/03/22/react-labs-what-we-have-been-working-on-march-2023)
+
+### 🎯 Quick Start
+1. Start with the [React Interview Mastery Guide](./react-interview-mastery-guide.md)
+2. Follow the 30-day preparation strategy
+3. Build the suggested projects each week
+4. Practice mock interviews in Week 4
